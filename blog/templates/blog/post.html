@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+
+{% block body %}
+    <div class="container">
+      <div class="row">
+        <!-- Latest Posts -->
+        <main class="post blog-post col-lg-8"> 
+          <div class="container">
+            <div class="post-single">
+              <div class="post-thumbnail"><img src="{{post.thumnail.url}}" alt="..." class="img-fluid"></div>
+              <div class="post-details">
+                <div class="post-meta d-flex justify-content-between">
+                  <div class="category">
+                    {% for cat in post.categories.all %}
+                      <a href="#">{{cat|title}}</a>  
+                    {% endfor %}
+                  
+                  </div>
+                </div>
+                <h1>{{post.title}}</h1>
+                <div class="post-footer d-flex align-items-center flex-column flex-sm-row"><a href="{% url 'userprofile' post.author.id %}" class="author d-flex align-items-center flex-wrap">
+                    <div class="avatar"><img src="{{post.author.profile.url}}" alt="..." class="img-fluid"></div>
+                    <div class="title"><span>{{post.author.user.username}}</span></div></a>
+                  <div class="d-flex align-items-center flex-wrap">       
+                    <div class="date"><i class="icon-clock"></i> {{post.created_at|timesince}} ago</div>
+                  </div>
+                </div>
+                <div class="post-body">
+                  <p class="lead">
+                    {{post.description}}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+
+{% if request.user == post.author.user %}
+
+        <aside class="col-lg-4">
+          <div class="widget">
+            <header>
+              <h3 class="h6">Action</h3>
+            </header>
+            <div class="action ">
+                <div class="item d-flex align-items-center">
+                  <div class="update">
+                    <a href="{% url 'post-update' post.id %}">
+                        <button  type="button" class="btn btn-warning">
+                          Update
+                        </button>
+                    </a>
+                  </div>
+                  &nbsp
+                  <div class="delete">
+                    <a href="{% url 'post-delete' post.id %}">
+                        <button type="button" class="btn btn-danger">
+                          Delete
+                        </button>
+                    </a>
+                  </div>
+               
+          </div>
+
+        </aside>
+{% endif %}
+
+
+
+
+      </div>
+    </div>
+
+{% endblock body %}

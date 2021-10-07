@@ -1,0 +1,140 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body %}
+
+
+    <!-- Hero Section-->
+    <section style="background: url({% static 'images/hero.jpg' %}); background-size: cover; background-position: center center" class="hero">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-7">
+            <h1>Your challenge is our progress</h1>
+          </div>
+        </div><a href=".intro" class="continue link-scroll"><i class="fa fa-long-arrow-down"></i> Scroll Down</a>
+      </div>
+    </section>
+    <!-- Intro Section-->
+    <section class="intro">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-8">
+            <h2 class="h3">Some great intro here</h2>
+            <p class="text-big">Place a nice <strong>introduction</strong> here <strong>to catch reader's attention</strong>. Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderi.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="featured-posts no-padding-top">
+      <div class="container">
+      {% for blog in blogs %}
+        {% if forloop.counter|divisibleby:"2" %}
+                    <!-- Post        -->
+        <div class="row d-flex align-items-stretch">
+          <div class="text col-lg-7">
+            <div class="text-inner d-flex align-items-center">
+              <div class="content">
+                <header class="post-header">
+                  <div class="category">
+                  {% for cat in blog.categories.all %}
+                    <a href="#">{{cat}}</a>
+                  {% endfor %}
+                  
+                  </div><a href="{% url 'post' blog.id%}">
+                    <h2 class="h4">{{blog.title}}</h2></a>
+                </header>
+                <p>{{blog.description|truncatechars:255}}</p>
+                <footer class="post-footer d-flex align-items-center"><a href="{% url 'userprofile' blog.author.id %}" class="author d-flex align-items-center flex-wrap">
+                    <div class="avatar"><img src="{{blog.author.profile.url}}" alt="..." class="img-fluid"></div>
+                    <div class="title"><span>{{blog.author.user.username}}</span></div></a>
+                  <div class="date"><i class="icon-clock"></i> {{blog.created_at|timesince}} ago</div>
+                </footer>
+              </div>
+            </div>
+          </div>
+          <div class="image col-lg-5"><img src="{{blog.thumnail.url}}" alt="..."></div>
+        </div>
+        {% else %}
+        <!-- Post        -->
+        <div class="row d-flex align-items-stretch">
+          <div class="image col-lg-5"><img src="{{blog.thumnail.url}}" alt="..."></div>
+          <div class="text col-lg-7">
+            <div class="text-inner d-flex align-items-center">
+              <div class="content">
+                <header class="post-header">
+                  <div class="category">
+                    {% for cat in blog.categories.all %}
+                    <a href="#">{{cat}}</a>
+              
+                    {% endfor %}
+                  </div><a href="{% url 'post' blog.id %}">
+                    <h2 class="h4">{{blog.title}}</h2></a>
+                </header>
+                <p>{{blog.description|truncatechars:255}}</p>
+                <footer class="post-footer d-flex align-items-center"><a href="{% url 'userprofile' blog.author.id %}" class="author d-flex align-items-center flex-wrap">
+                    <div class="avatar"><img src="{{blog.author.profile.url}}" alt="..." class="img-fluid"></div>
+                    <div class="title"><span>{{blog.author.user.username}}</span></div></a>
+                  <div class="date"><i class="icon-clock"></i> {{blog.created_at|timesince}} ago</div>
+                </footer>
+              </div>
+            </div>
+          </div>
+        </div>
+    {% endif %}
+    {% endfor %}
+    <!-- Latest Posts -->
+    <section class="latest-posts"> 
+      <div class="container">
+        <header> 
+          <h2>Latest from the blog</h2>
+          <p class="text-big">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</p>
+        </header>
+        <div class="row">
+          {% for post in latest %}
+
+
+          <div class="post col-md-4">
+            <div class="post-thumbnail"><a href="post.html"><img src="{{post.thumnail.url}}" alt="..." class="img-fluid"></a></div>
+            <div class="post-details">
+              <div class="post-meta d-flex justify-content-between">
+                <div class="date">{{post.created_at|timesince}} ago</div>
+                <div class="category">
+                  {% for cat in post.categories.all %}
+                    <a href="#">{{cat}}</a>
+                  {% endfor %}
+                
+                </div>
+              </div><a href="{% url 'post' post.id %}">
+                <h3 class="h4">{{post.title}}</h3></a>
+              <p class="text-muted">{{post.description|truncatechars:50}}</p>
+            </div>
+          </div>
+          
+          {% endfor %}
+        </div>
+      </div>
+    </section>
+    <!-- Newsletter Section-->
+    <section class="newsletter no-padding-top">    
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <h2>Subscribe to Newsletter</h2>
+            <p class="text-big">Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          </div>
+          <div class="col-md-8">
+            <div class="form-holder">
+              <form action="#">
+                <div class="form-group">
+                  <input type="email" name="email" id="email" placeholder="Type your email address">
+                  <button type="submit" class="submit">Subscribe</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </section>
+
+  {% endblock body %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block body %}
+
+    <style>
+        .delete{
+            min-height: 70vw;
+        }
+    </style>
+
+    <div class="container delete">
+        <form action="" method="POST">
+            {% csrf_token %}
+
+            <p>Are you sure you want to delete the blog post <i><strong>"{{post.title}}"</strong></i> and its related items?</p>
+            <a href="{% url 'post' post.id %}">
+                <button type="button" class="btn btn-success">Cancel</button>
+            </a>
+            <button type="submit" class="btn btn-danger">Delete</button>
+        
+        </form>
+    </div>
+
+
+{% endblock body %}
